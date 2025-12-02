@@ -122,6 +122,21 @@ export const scoreWord = (word) => {
 // console.log(scoreWord('lilac'));
 
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
+  let highestScore = 0;
+  let highestWord = words[0];
+  for (let word of words) {
+    let score = scoreWord(word);
+    if (score > highestScore) {
+      highestScore = score;
+      highestWord = word;
+    } else if (score === highestScore) {
+      if (word.length < highestWord.length && word.length !== HAND_SIZE && highestWord.length !== HAND_SIZE) {
+        highestWord = word;
+      } else if (word.length === HAND_SIZE && highestWord.length !== HAND_SIZE) {
+        highestWord = word;
+      }
+    };
+  }
+  return { word: highestWord, score: highestScore };
 };
-
+// console.log(highestScoreFrom(['X', 'XX', 'XXX', 'XXXX']));
