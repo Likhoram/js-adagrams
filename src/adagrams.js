@@ -80,32 +80,46 @@ export const drawLetters = () => {
     count += 1;
   };
 
-  // console.log(hand); 
   return hand;
 };
   // console.log(drawLetters());
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  
+  let letterBankCopy = {};
+  for (const letter of lettersInHand) {
+    if (letterBankCopy[letter]) {
+      letterBankCopy[letter] += 1;
+    } else {
+      letterBankCopy[letter] = 1;
+    }
+  }
+
+  let wordUpper = input.toUpperCase();
+  for (const char of wordUpper) {
+    if (letterBankCopy[char] > 0) {
+      letterBankCopy[char] -= 1;
+    } else {
+      return false;
+    }
+  }
+  return true;
 };
-
-    // letter_bank_copy = {}
-    // for letter in letter_bank:
-    //     letter_bank_copy[letter] = letter_bank_copy.get(letter, 0) + 1
-
-    // word_upper = word.upper()
-    // for char in word_upper:
-    //     if letter_bank_copy.get(char, 0) > 0:
-    //         letter_bank_copy[char] -= 1
-
-    //     else:
-    //         return False
-        
-    // return True
 
 export const scoreWord = (word) => {
-  // Implement this method for wave 3
+  let score = 0;
+  for (const char of word.toUpperCase()) {
+    if (char in SCORE_CHART) {
+      score += SCORE_CHART[char];
+    }
+  }
+
+  if (word.length >= BONUS_THRESHOLD && word.length <= HAND_SIZE) {
+    score += BONUS_POINTS;
+  }
+
+  return score;
 };
+// console.log(scoreWord('lilac'));
 
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
